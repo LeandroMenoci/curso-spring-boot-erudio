@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.curso.data.vo.v1.PersonVO;
 import com.curso.exceptions.ResourceNotFoundException;
-import com.curso.model.Person;
 import com.curso.repositories.PersonRepository;
 
 @Service
@@ -18,14 +18,14 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
-    public List<Person> findAll(){
+    public List<PersonVO> findAll(){
 
         logger.info("Finding all people!");
 
         return repository.findAll();
     }
 
-    public Person findById(Long id) {
+    public PersonVO findById(Long id) {
 
         logger.info("Finding one person!");
 
@@ -34,16 +34,16 @@ public class PersonServices {
                         .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
     }
 
-    public Person create(Person person) {
+    public PersonVO create(PersonVO person) {
         logger.info("Updating one person!");
 
         return repository.save(person);
     }
 
-    public Person update(Person person) {
+    public PersonVO update(PersonVO person) {
         logger.info("Creating one person!");
         
-        Person entity = repository.findById(person.getId())
+        PersonVO entity = repository.findById(person.getId())
         .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
         entity.setFirstName(person.getFirstName());
@@ -56,7 +56,7 @@ public class PersonServices {
     public void delete(Long id) {
         logger.info("Deleting one person!");
 
-        Person entity = repository.findById(id)
+        PersonVO entity = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
         repository.delete(entity);
